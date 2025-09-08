@@ -1,0 +1,4 @@
+mssql-django
+django-mssql-backend
+Django
+pillow
