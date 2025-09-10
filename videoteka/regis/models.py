@@ -41,7 +41,7 @@ class User(models.Model):
     
     class Meta:
         db_table = 'users'
-    
+
 class MovieCrew(models.Model):
     crew_id = models.AutoField(primary_key=True)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, db_column='movie_id')
