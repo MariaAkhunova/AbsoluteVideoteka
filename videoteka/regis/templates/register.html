@@ -34,7 +34,7 @@
                 <div class="error">{{ form.password2.errors }}</div>
             {% endif %}
         </div>
-        
+        <p>Уже есть аккаунт? <a href="{% url 'login' %}">Войдите</a></p>
         <button type="submit">Зарегистрироваться</button>
     </form>
     
