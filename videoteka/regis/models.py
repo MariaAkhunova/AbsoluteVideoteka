@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth.models import User
 
 class Role(models.Model):
     role_id = models.AutoField(primary_key=True)
@@ -30,16 +31,6 @@ class Movie(models.Model):
     class Meta:
         db_table = 'movies'
 
-class User(models.Model):
-    user_id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=50)
-    password = models.CharField(max_length=255)
-    phone_number = models.CharField(max_length=20, blank=True)
-    registration_date = models.DateTimeField(auto_now_add=True)
-    
-    class Meta:
-        db_table = 'users'
-
 class MovieCrew(models.Model):
     crew_id = models.AutoField(primary_key=True)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, db_column='movie_id')
@@ -52,7 +43,7 @@ class MovieCrew(models.Model):
 
 class Sale(models.Model):
     sale_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, db_column='user_id')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, db_column='id')
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, db_column='movie_id')
     unit_price = models.IntegerField()
     sale_date = models.DateTimeField(auto_now_add=True)

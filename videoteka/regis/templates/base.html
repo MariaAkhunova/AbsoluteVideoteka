@@ -16,7 +16,7 @@
                 <a href="{% url 'home' %}" class="logo">🎬 Кадр за Кадром</a>
                 <div class="nav-buttons">
                     {% if user.is_authenticated %}
-                        <a href="{% url 'profile' %}" class="btn btn-secondary">Личный кабинет</a>
+                        <a href="#" class="btn btn-secondary">Личный кабинет</a>
                         <a href="{% url 'logout' %}" class="btn btn-primary">Выйти</a>
                     {% else %}
                         <a href="{% url 'login' %}" class="btn btn-secondary">Войти</a>
