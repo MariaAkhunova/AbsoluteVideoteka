@@ -6,6 +6,9 @@ class Role(models.Model):
     role_id = models.AutoField(primary_key=True)
     role_name = models.CharField(max_length=50, unique=True)
     
+    def __str__(self):
+        return f"{self.role_name}"
+
     class Meta:
         db_table = 'roles'
 
@@ -16,6 +19,9 @@ class Artist(models.Model):
     birth_date = models.DateField(null=True, blank=True)
     biography = models.CharField(max_length=500, blank=True)
     
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+
     class Meta:
         db_table = 'artists'
 
@@ -28,6 +34,9 @@ class Movie(models.Model):
     price = models.IntegerField()
     poster = models.ImageField(upload_to='poster/', null=True)
     
+    def __str__(self):
+        return f"{self.title} - {self.price} руб."
+
     class Meta:
         db_table = 'movies'
 
@@ -38,6 +47,9 @@ class MovieCrew(models.Model):
     role = models.ForeignKey(Role, on_delete=models.CASCADE, db_column='role_id')
     character_name = models.CharField(max_length=100, blank=True, null=True)
     
+    def __str__(self):
+        return f"{self.movie} - {self.artist} - {self.character_name}"
+
     class Meta:
         db_table = 'movie_crew'
 
@@ -48,5 +60,8 @@ class Sale(models.Model):
     unit_price = models.IntegerField()
     sale_date = models.DateTimeField(auto_now_add=True)
     
+    def __str__(self):
+        return f"{self.user} - {self.movie}"
+
     class Meta:
         db_table = 'sales'
