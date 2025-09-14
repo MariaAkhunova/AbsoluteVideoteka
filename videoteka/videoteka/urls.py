@@ -22,4 +22,6 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include("regis.urls")),
-]+ static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])
+]+ static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0]) 
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

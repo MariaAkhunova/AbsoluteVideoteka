@@ -8,13 +8,7 @@
     <div class="movie-card">
         <!-- Постер фильма -->
         <div class="movie-poster">
-            {% if movie.poster %}
-                <img src="{{ movie.poster}}" alt="{{ movie.title }}" 
-                     onerror="this.src='https://via.placeholder.com/300x450/3498db/ffffff?text=No+Image'">
-            {% else %}
-                <img src="https://via.placeholder.com/300x450/3498db/ffffff?text=No+Image" 
-                     alt="{{ movie.title }}">
-            {% endif %}
+            <img src="{{ movie.poster.url }}" alt="{{ movie.name }}">
             
             <!-- Цена поверх постера -->
             <div class="movie-price">{{ movie.price }} ₽</div>

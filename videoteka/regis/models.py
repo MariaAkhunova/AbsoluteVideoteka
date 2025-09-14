@@ -32,7 +32,8 @@ class Movie(models.Model):
     genre = models.CharField(max_length=100)
     duration = models.IntegerField()
     price = models.IntegerField()
-    poster = models.ImageField(upload_to='poster/', null=True)
+    poster = models.ImageField(upload_to='poster/', null=True, blank=True)
+    description = models.CharField(max_length=255)
     
     def __str__(self):
         return f"{self.title} - {self.price} руб."
