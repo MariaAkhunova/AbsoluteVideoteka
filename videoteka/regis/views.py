@@ -40,11 +40,19 @@ def logout_view(request):
 
 def movie_detail(request, movie_id):
     movie = get_object_or_404(Movie, movie_id=movie_id)
-    trailer_info = get_trailer_info(movie.trailer_url) if movie.trailer_url else None
+    crew_by_roles = {}
+    for crew in movie.moviecrew_set.all().select_related('artist', 'role'):
+        role_name = crew.role.role_name
+        if role_name not in crew_by_roles:
+            crew_by_roles[role_name] = []
+        crew_by_roles[role_name].append(crew)
     
     context = {
         'movie': movie,
-        'trailer_info': trailer_info,
+        'crew_by_roles': crew_by_roles,
         'id': movie_id,
     }
-    return render(request, 'movie_detail.html', context)    
+    return render(request, 'movie_detail.html', context)  
+
+def artist_detail(request, artist_id):
+    return render(request, 'artist_detail.html')   

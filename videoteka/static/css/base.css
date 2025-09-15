@@ -109,21 +109,3 @@ footer {
 .footer-links a:hover {
     text-decoration: underline;
 }
-        
-        /* Адаптивность */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .nav-buttons {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            .btn {
-                padding: 8px 15px;
-                font-size: 0.9rem;
-            }
-        }

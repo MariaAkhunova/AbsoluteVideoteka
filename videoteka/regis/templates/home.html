@@ -8,9 +8,9 @@
 {% block content %}
 <div class="movies-grid">
     {% for movie in movies_list %}
-    <a href="/movie/{{ movie.movie_id }}/" class="movie-card-link">
-        <div class="movie-card">
-            <!-- Постер фильма -->
+    <div class="movie-card">
+        <!-- Постер фильма -->
+        <a href="/movie/{{ movie.movie_id }}/" class="movie-card-link">
             <div class="movie-poster">
                 {% if movie.poster %}
                     <img src="{{ movie.poster.url }}" alt="{{ movie.title }}">
@@ -25,23 +25,18 @@
             <!-- Информация о фильме -->
             <div class="movie-info">
                 <h3 class="movie-title">{{ movie.title }}</h3>
-                <p class="movie-details">{{ movie.release_year }} • {{ movie.genre }}</p>
-                
-                <!-- Кнопка купить - нужно предотвратить всплытие события -->
-                <div class="movie-actions" onclick="event.stopPropagation()">
+                <p class="movie-details">{{ movie.release_year }} • {{ movie.genre }}</p>   
+            </a>
+                <!-- Кнопка купить  -->
+                <div class="movie-actions">
                     {% if user.is_authenticated %}
-                        <button class="buy-btn" onclick="event.stopPropagation(); buyMovie({{ movie.movie_id }})">
-                            🛒 Купить
-                        </button>
+                        <button class="buy-btn">🛒 Купить</button>
                     {% else %}
-                        <a href="{% url 'login' %}" class="login-btn" onclick="event.stopPropagation()">
-                            🔒 Войти для покупки
-                        </a>
+                        <a href="{% url 'login' %}" class="login-btn">🔒 Войти для покупки</a>
                     {% endif %}
                 </div>
             </div>
         </div>
-    </a>
     {% empty %}
     <div class="no-movies">
         <p>Фильмы не найдены</p>
