@@ -1,10 +1,99 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% comment %} {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'css/home.css' %}">
-{% endblock %} {% endcomment %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/artist_detail.css' %}">
+{% endblock %}
 
 {% block content %}
+<div class="artist-detail-container">
+    <!-- Шапка профиля -->
+    <div class="artist-header">
+        <div class="artist-photo-section">
+            {% if artist.photo %}
+            <img src="{{ artist.photo.url }}" alt="{{ artist.get_full_name }}" class="artist-photo">
+            {% else %}
+            <div class="artist-photo-placeholder">
+                {{ artist.first_name|first }}{{ artist.last_name|first }}
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="artist-info-section">
+            <h1>{{ artist.first_name }} {{ artist.last_name }}</h1>
+            
+            <div class="artist-meta">
+                {% if age %}
+                <span class="meta-item">Возраст: {{ age }} лет</span>
+                {% endif %}
+                
+                {% if artist.birth_date %}
+                <span class="meta-item">Дата рождения: {{ artist.birth_date|date:"d.m.Y" }}</span>
+                {% endif %}
+                
+                {% if role_stats %}
+                <span class="meta-item">
+                    Всего работ: {{ role_stats.0.count }}
+                </span>
+                {% endif %}
+            </div>
+            
+            {% if artist.biography %}
+            <div class="biography">
+                <h3>Биография</h3>
+                <p>{{ artist.biography }}</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
 
+    <!-- Статистика по ролям -->
+    {% if role_stats %}
+    <div class="role-statistics">
+        <h2>Статистика по ролям</h2>
+        <div class="stats-grid">
+            {% for stat in role_stats %}
+            <div class="stat-item">
+                <span class="role-name">{{ stat.role__role_name }}</span>
+                <span class="role-count">{{ stat.count }} работ</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Фильмография -->
+    <div class="filmography-section">
+        <h2>Фильмография</h2>
+        
+        {% for role_name, movies in movies_by_role.items %}
+        <div class="role-group">
+            <h3>{{ role_name }}</h3>
+            <div class="movies-grid">
+                {% for item in movies %}
+                <div class="movie-item">
+                    <a href="{% url 'movie_detail' item.movie.movie_id %}" class="movie-link">
+                        {% if item.movie.poster %}
+                        <img src="{{ item.movie.poster.url }}" alt="{{ item.movie.title }}" class="movie-poster">
+                        {% else %}
+                        <div class="movie-poster-placeholder">
+                            {{ item.movie.title|slice:":2" }}
+                        </div>
+                        {% endif %}
+                        
+                        <div class="movie-info">
+                            <h4>{{ item.movie.title }} ({{ item.movie.release_year }})</h4>
+                            {% if item.character_name %}
+                            <p class="character">Роль: {{ item.character_name }}</p>
+                            {% endif %}
+                            <p class="genre">{{ item.movie.genre }}</p>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

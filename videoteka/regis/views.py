@@ -1,9 +1,11 @@
 # views.py
 from django.shortcuts import render, redirect,  get_object_or_404
+from django.db.models import Count
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from .models import Sale, MovieCrew, Movie, Artist, Role
+from datetime import date
 
 def homepage(request):
     movies_list = Movie.objects.all()
@@ -55,4 +57,33 @@ def movie_detail(request, movie_id):
     return render(request, 'movie_detail.html', context)  
 
 def artist_detail(request, artist_id):
-    return render(request, 'artist_detail.html')   
+    artist = get_object_or_404(Artist.objects.prefetch_related(
+        'moviecrew_set__movie',
+        'moviecrew_set__role'
+    ), artist_id=artist_id)
+    
+    # Получаем фильмы с группировкой по ролям
+    movies_by_role = {}
+    for crew in artist.moviecrew_set.all():
+        role_name = crew.role.role_name
+        if role_name not in movies_by_role:
+            movies_by_role[role_name] = []
+        movies_by_role[role_name].append({
+            'movie': crew.movie,
+            'character_name': crew.character_name
+        })
+    
+    # Статистика по ролям
+    role_stats = artist.moviecrew_set.values(
+        'role__role_name'
+    ).annotate(
+        count=Count('artist_id')
+    ).order_by('-count')
+    
+    context = {
+        'artist': artist,
+        'movies_by_role': movies_by_role,
+        'role_stats': role_stats,
+        'age': artist.get_age(),
+    }
+    return render(request, 'artist_detail.html', context)   
