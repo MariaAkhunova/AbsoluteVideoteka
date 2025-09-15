@@ -1,5 +1,5 @@
 # views.py
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,  get_object_or_404
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
@@ -37,3 +37,14 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('home')    
+
+def movie_detail(request, movie_id):
+    movie = get_object_or_404(Movie, movie_id=movie_id)
+    trailer_info = get_trailer_info(movie.trailer_url) if movie.trailer_url else None
+    
+    context = {
+        'movie': movie,
+        'trailer_info': trailer_info,
+        'id': movie_id,
+    }
+    return render(request, 'movie_detail.html', context)    

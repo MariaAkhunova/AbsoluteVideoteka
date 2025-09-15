@@ -34,6 +34,7 @@ class Movie(models.Model):
     price = models.IntegerField()
     poster = models.ImageField(upload_to='poster/', null=True, blank=True)
     description = models.CharField(max_length=255)
+    trailer_url = models.URLField(blank=True, null=True)
     
     def __str__(self):
         return f"{self.title} - {self.price} руб."
