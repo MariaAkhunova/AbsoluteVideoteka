@@ -30,7 +30,7 @@
                 <!-- Кнопка купить  -->
                 <div class="movie-actions">
                     {% if user.is_authenticated %}
-                        <button class="buy-btn">🛒 Купить</button>
+                        <a href="{% url 'purchase_movie' movie.movie_id %}" ><button class="buy-btn">🛒 Купить</button></a>
                     {% else %}
                         <a href="{% url 'login' %}" class="login-btn">🔒 Войти для покупки</a>
                     {% endif %}

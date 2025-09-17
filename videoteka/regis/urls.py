@@ -8,4 +8,6 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('movie/<int:movie_id>/', views.movie_detail, name='movie_detail'),
     path('artist/<int:artist_id>/', views.artist_detail, name='artist_detail'),
+    path('profile/', views.profile, name='profile'),
+    path('movie/<int:movie_id>/purchase/', views.purchase_movie, name='purchase_movie'),
 ]

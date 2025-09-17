@@ -77,3 +77,4 @@ class Sale(models.Model):
 
     class Meta:
         db_table = 'sales'
+        unique_together = ['user', 'movie']

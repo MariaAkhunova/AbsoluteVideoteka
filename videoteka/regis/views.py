@@ -1,11 +1,75 @@
 # views.py
 from django.shortcuts import render, redirect,  get_object_or_404
 from django.db.models import Count
+from django.contrib import messages
 from django.contrib.auth import login, logout
+from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from .models import Sale, MovieCrew, Movie, Artist, Role
 from datetime import date
+from .forms import UserEmailForm, PurchaseForm
+
+@login_required
+def purchase_movie(request, movie_id):
+    movie = get_object_or_404(Movie, movie_id=movie_id)
+    user = request.user
+    
+    # Проверяем, не куплен ли уже фильм
+    if Sale.objects.filter(user=user, movie=movie).exists():
+        messages.warning(request, f'Фильм "{movie.title}" уже куплен!')
+        return redirect('movie_detail', movie_id=movie_id)
+    
+    if request.method == 'POST':
+        form = PurchaseForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            
+            # Обновляем email пользователя если он изменился
+            if user.email != email:
+                user.email = email
+                user.save()
+                messages.info(request, 'Email успешно обновлен!')
+            
+            # Создаем запись о покупке
+            sale = Sale.objects.create(
+                user=user,
+                movie=movie,
+                unit_price=movie.price
+            )
+            
+            messages.success(request, f'Фильм "{movie.title}" успешно куплен!')
+            return redirect('profile')
+    else:
+        # Предзаполняем текущий email пользователя
+        initial_email = user.email if user.email else ''
+        form = PurchaseForm(initial={'email': initial_email})
+    
+    context = {
+        'movie': movie,
+        'form': form,
+    }
+    return render(request, 'purchase.html', context)
+
+@login_required
+def profile(request):
+    user = request.user
+    purchases = Sale.objects.filter(user=user).select_related('movie').order_by('-sale_date')
+    
+    if request.method == 'POST':
+        form = UserEmailForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Email успешно обновлен!')
+            return redirect('profile')
+    else:
+        form = UserEmailForm(instance=user)
+    
+    context = {
+        'form': form,
+        'purchases': purchases,
+    }
+    return render(request, 'profile.html', context)
 
 def homepage(request):
     movies_list = Movie.objects.all()
