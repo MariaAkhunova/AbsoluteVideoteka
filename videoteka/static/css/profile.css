@@ -241,7 +241,7 @@
 
 .browse-movies-btn {
     padding: 12px 25px;
-    background: #007bff;
+    background-color: #e74c3c;
     color: white;
     text-decoration: none;
     border-radius: 8px;
@@ -249,7 +249,7 @@
 }
 
 .browse-movies-btn:hover {
-    background: #0056b3;
+    background-color: #c0392b;
 }
 
 /* Сообщения */
@@ -267,29 +267,4 @@
     background: #d4edda;
     color: #155724;
     border: 1px solid #c3e6cb;
-}
-
-/* Адаптивность */
-@media (max-width: 768px) {
-    .tabs {
-        flex-direction: column;
-    }
-    
-    .purchase-item {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
-    }
-    
-    .purchase-details {
-        text-align: left;
-        width: 100%;
-        border-top: 1px solid #eee;
-        padding-top: 15px;
-    }
-    
-    .info-item {
-        flex-direction: column;
-        gap: 5px;
-    }
 }

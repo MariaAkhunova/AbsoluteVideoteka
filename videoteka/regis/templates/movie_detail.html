@@ -43,8 +43,7 @@
                 <p class="description">{{ movie.description }}</p>
                 
                 {% if user.is_authenticated %}
-                <button class="buy-btn-large" onclick="buyMovie({{ movie.movie_id }})">
-                    🛒 Купить за {{ movie.price }} ₽
+                <a href="{% url 'purchase_movie' movie.movie_id %}" ><button class="buy-btn-large">🛒 Купить за {{ movie.price }} ₽</button></a>
                 </button>
                 {% else %}
                 <a href="{% url 'login' %}" class="login-btn-large">
