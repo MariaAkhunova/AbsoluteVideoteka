@@ -1,8 +1,8 @@
-# forms.py
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserChangeForm
 
+# форма профиля пользователя
 class UserEmailForm(forms.ModelForm):
     class Meta:
         model = User
@@ -17,6 +17,7 @@ class UserEmailForm(forms.ModelForm):
             })
         }
 
+#форма покупки фильма
 class PurchaseForm(forms.Form):
     email = forms.EmailField(
         label='Электронная почта для подтверждения',

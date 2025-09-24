@@ -1,18 +1,29 @@
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-        <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <title>Вход</title>
-</head>
-<body>
+
+{% block extra_css %}
+     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="auth-container">
     <h2>Вход в аккаунт</h2>
-    <form method="post">
+    <form method="post" class="auth-form">
         {% csrf_token %}
-        {{ form.as_p }}
-        <p>Нет аккаунта? <a href="{% url 'register' %}">Зарегистрироваться</a></p>
-        <p><a href="{% url 'admin:login' %}">Я админ</a></p>
-        <button type="submit">Войти</button>
+        {% for field in form %}
+        <div class="form-group">
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.errors %}
+                {{ field.errors }}
+            {% endif %}
+        </div>
+        {% endfor %}
+        <div class="auth-links">
+            <p>Нет аккаунта? <a href="{% url 'register' %}">Зарегистрироваться</a></p>
+            <p><a href="{% url 'admin:login' %}" class="admin-link">Я админ</a></p>
+        </div>
+        <button type="submit" class="auth-button">Войти</button>
     </form>
-</body>
-</html>
+</div>
+{% endblock %}

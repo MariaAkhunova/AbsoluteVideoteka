@@ -1,4 +1,3 @@
-/* static/css/purchase.css */
 .purchase-container {
     max-width: 600px;
     margin: 40px auto;
@@ -190,29 +189,4 @@
 
 .confirm-btn:hover {
     background: #218838;
-}
-
-/* Адаптивность */
-@media (max-width: 768px) {
-    .purchase-container {
-        padding: 10px;
-    }
-    
-    .purchase-card {
-        padding: 20px;
-    }
-    
-    .movie-info-purchase {
-        flex-direction: column;
-        text-align: center;
-    }
-    
-    .purchase-actions {
-        flex-direction: column;
-    }
-    
-    .cancel-btn, .confirm-btn {
-        width: 100%;
-        text-align: center;
-    }
 }

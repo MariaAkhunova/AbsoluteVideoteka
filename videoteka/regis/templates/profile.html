@@ -98,19 +98,16 @@
 function openTab(evt, tabName) {
     var i, tabcontent, tablinks;
     
-    // Скрыть все вкладки
     tabcontent = document.getElementsByClassName("tab-content");
     for (i = 0; i < tabcontent.length; i++) {
         tabcontent[i].classList.remove("active");
     }
     
-    // Убрать активный класс у всех кнопок
     tablinks = document.getElementsByClassName("tab-link");
     for (i = 0; i < tablinks.length; i++) {
         tablinks[i].classList.remove("active");
     }
     
-    // Показать текущую вкладку и сделать кнопку активной
     document.getElementById(tabName).classList.add("active");
     evt.currentTarget.classList.add("active");
 }

@@ -6,8 +6,8 @@
 {% endblock %}
 
 {% block content %}
+<!-- Фото артиста -->
 <div class="artist-detail-container">
-    <!-- Шапка профиля -->
     <div class="artist-header">
         <div class="artist-photo-section">
             {% if artist.photo %}
@@ -19,6 +19,7 @@
             {% endif %}
         </div>
         
+        <!-- Основная информация -->
         <div class="artist-info-section">
             <h1>{{ artist.first_name }} {{ artist.last_name }}</h1>
             
