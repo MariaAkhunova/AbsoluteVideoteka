@@ -1,0 +1,196 @@
+.artist-detail-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.artist-header {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 40px;
+    align-items: flex-start;
+}
+
+.artist-photo-section {
+    flex-shrink: 0;
+}
+
+.artist-photo {
+    width: 300px;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.artist-photo-placeholder {
+    width: 300px;
+    height: 400px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 4em;
+    font-weight: bold;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.artist-info-section {
+    flex: 1;
+}
+
+.artist-info-section h1 {
+    margin: 0 0 20px 0;
+    color: #333;
+    font-size: 2.8em;
+}
+
+.artist-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.meta-item {
+    padding: 8px 16px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    font-size: 1em;
+    color: #555;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.biography h3 {
+    margin: 0 0 15px 0;
+    color: #333;
+}
+
+.biography p {
+    line-height: 1.8;
+    color: #666;
+    font-size: 1.1em;
+}
+
+.role-statistics {
+    margin-bottom: 40px;
+    padding: 25px;
+    background: #f8f9fa;
+    border-radius: 15px;
+}
+
+.role-statistics h2 {
+    margin: 0 0 20px 0;
+    color: #333;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.stat-item {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.role-name {
+    display: block;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.role-count {
+    color: #666;
+    font-size: 0.9em;
+}
+
+.filmography-section h2 {
+    margin: 0 0 30px 0;
+    color: #333;
+}
+
+.role-group {
+    margin-bottom: 30px;
+}
+
+.role-group h3 {
+    margin: 0 0 20px 0;
+    color: #555;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #eee;
+}
+
+.movies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.movie-item {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.movie-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.movie-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.movie-poster {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+}
+
+.movie-poster-placeholder {
+    width: 100%;
+    height: 350px;
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.movie-info {
+    padding: 15px;
+}
+
+.movie-info h4 {
+    margin: 0 0 10px 0;
+    color: #333;
+    font-size: 1.1em;
+}
+
+.character {
+    color: #007bff;
+    font-style: italic;
+    margin: 0 0 8px 0;
+    font-size: 0.9em;
+}
+
+.genre {
+    color: #666;
+    margin: 0;
+    font-size: 0.9em;
+}

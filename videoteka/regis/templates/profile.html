@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <h1>Профиль пользователя</h1>
+    
+    <div class="profile-tabs">
+        <div class="tabs">
+            <button class="tab-link active" onclick="openTab(event, 'settings')">Настройки</button>
+            <button class="tab-link" onclick="openTab(event, 'purchases')">Мои покупки</button>
+        </div>
+        
+        <!-- Вкладка настроек -->
+        <div id="settings" class="tab-content active">
+            <div class="profile-card">
+                <h2>Личная информация</h2>
+                
+                <div class="user-info">
+                    <div class="info-item">
+                        <strong>Имя пользователя:</strong>
+                        <span>{{ user.username }}</span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <strong>Дата регистрации:</strong>
+                        <span>{{ user.date_joined|date:"d.m.Y" }}</span>
+                    </div>
+                </div>
+                
+                <h3>Изменить email</h3>
+                <form method="post" class="email-form">
+                    {% csrf_token %}
+                    
+                    <div class="form-group">
+                        <label for="{{ form.email.id_for_label }}">Электронная почта:</label>
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                        <div class="error">{{ form.email.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <button type="submit" class="save-btn">Сохранить изменения</button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Вкладка покупок -->
+        <div id="purchases" class="tab-content">
+            <div class="profile-card">
+                <h2>Мои покупки</h2>
+                
+                {% if purchases %}
+                <div class="purchases-list">
+                    {% for purchase in purchases %}
+                    <div class="purchase-item">
+                        <div class="purchase-movie">
+                            {% if purchase.movie.poster %}
+                            <img src="{{ purchase.movie.poster.url }}" alt="{{ purchase.movie.title }}" class="purchase-poster">
+                            {% else %}
+                            <div class="purchase-poster-placeholder">
+                                {{ purchase.movie.title|slice:":2" }}
+                            </div>
+                            {% endif %}
+                            
+                            <div class="purchase-info">
+                                <h4>{{ purchase.movie.title }} ({{ purchase.movie.release_year }})</h4>
+                                <p class="purchase-genre">{{ purchase.movie.genre }}</p>
+                                <a href="{% url 'movie_detail' purchase.movie.movie_id %}" class="view-movie-btn">Смотреть фильм</a>
+                            </div>
+                        </div>
+                        
+                        <div class="purchase-details">
+                            <div class="purchase-price">{{ purchase.unit_price }} ₽</div>
+                            <div class="purchase-date">{{ purchase.sale_date|date:"d.m.Y H:i" }}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="no-purchases">
+                    <p>У вас пока нет покупок</p>
+                    <a href="{% url 'home' %}" class="browse-movies-btn">Перейти к каталогу</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    
+    tabcontent = document.getElementsByClassName("tab-content");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].classList.remove("active");
+    }
+    
+    tablinks = document.getElementsByClassName("tab-link");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].classList.remove("active");
+    }
+    
+    document.getElementById(tabName).classList.add("active");
+    evt.currentTarget.classList.add("active");
+}
+</script>
+{% endblock %}

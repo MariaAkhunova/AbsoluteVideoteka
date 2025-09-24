@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/movie_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="movie-detail-container">
+    <!-- Трейлер -->
+    {% if movie.trailer_url %}
+    <div class="trailer-section">
+        <h2>Трейлер</h2>
+        <div class="trailer-container">
+            <iframe 
+                width="100%" 
+                height="500" 
+                src="{{ movie.trailer_url }}" 
+                frameborder="0" 
+                allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Основная информация о фильме -->
+    <div class="movie-info-section">
+        <div class="movie-header">
+            {% if movie.poster %}
+            <img src="{{ movie.poster.url }}" alt="{{ movie.title }}" class="movie-poster-large">
+            {% else %}
+            <img src="{% static 'images/default-poster.jpg' %}" alt="{{ movie.title }}" class="movie-poster-large">
+            {% endif %}
+            
+            <div class="movie-basic-info">
+                <h1>{{ movie.title }} ({{ movie.release_year }})</h1>
+                <div class="movie-meta">
+                    <span class="genre">{{ movie.genre }}</span>
+                    <span class="duration">{{ movie.duration }} мин.</span>
+                    <span class="price">{{ movie.price }} ₽</span>
+                </div>
+                
+                <p class="description">{{ movie.description }}</p>
+                
+                {% if user.is_authenticated %}
+                <a href="{% url 'purchase_movie' movie.movie_id %}" ><button class="buy-btn-large">🛒 Купить за {{ movie.price }} ₽</button></a>
+                </button>
+                {% else %}
+                <a href="{% url 'login' %}" class="login-btn-large">
+                    🔒 Войти для покупки
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Съемочная группа -->
+    <div class="crew-section">
+        <h2>Съемочная группа</h2>
+        
+        {% for role_name, crew_members in crew_by_roles.items %}
+        <div class="crew-role-group">
+            <h3>{{ role_name }}</h3>
+            <div class="crew-members">
+                {% for crew in crew_members %}
+                <div class="crew-member">
+                    <a href="{% url 'artist_detail' crew.artist.artist_id %}" class="artist-link">
+                        <div class="artist-avatar">
+                            <!-- Здесь можно добавить фото актера если будете добавлять -->
+                            {{ crew.artist.first_name|first }}{{ crew.artist.last_name|first }}
+                        </div>
+                        <div class="artist-info">
+                            <strong>{{ crew.artist.first_name }} {{ crew.artist.last_name }}</strong>
+                            {% if crew.character_name %}
+                            <span class="character">в роли {{ crew.character_name }}</span>
+                            {% endif %}
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% comment %} {% block extra_js %}
+<script>
+function buyMovie(movieId) {
+    // Ваша логика покупки фильма
+    console.log('Покупка фильма:', movieId);
+    // Здесь можно добавить AJAX запрос или перенаправление
+}
+</script>
+{% endblock %} {% endcomment %}

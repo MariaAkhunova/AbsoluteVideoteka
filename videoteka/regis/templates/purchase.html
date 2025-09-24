@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/purchase.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="purchase-container">
+    <div class="purchase-card">
+        <h1>Подтверждение покупки</h1>
+        
+        <div class="movie-info-purchase">
+            {% if movie.poster %}
+            <img src="{{ movie.poster.url }}" alt="{{ movie.title }}" class="purchase-poster">
+            {% else %}
+            <div class="purchase-poster-placeholder">
+                {{ movie.title|slice:":2" }}
+            </div>
+            {% endif %}
+            
+            <div class="purchase-movie-details">
+                <h2>{{ movie.title }} ({{ movie.release_year }})</h2>
+                <p class="genre">{{ movie.genre }}</p>
+                <p class="duration">{{ movie.duration }} мин.</p>
+                <div class="price-large">{{ movie.price }} ₽</div>
+            </div>
+        </div>
+        
+        <form method="post" class="purchase-form">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="{{ form.email.id_for_label }}">Электронная почта для подтверждения:</label>
+                {{ form.email }}
+                {% if form.email.errors %}
+                <div class="error">{{ form.email.errors }}</div>
+                {% endif %}
+                <small class="form-text">На этот email будет отправлено подтверждение покупки</small>
+            </div>
+            
+            <div class="form-group confirm-group">
+                <label class="form-check-label">
+                    {{ form.confirm }}
+                    Подтверждаю покупку фильма "{{ movie.title }}"
+                </label>
+                {% if form.confirm.errors %}
+                <div class="error">{{ form.confirm.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="purchase-summary">
+                <h3>Итог покупки:</h3>
+                <div class="summary-item">
+                    <span>Стоимость фильма:</span>
+                    <span>{{ movie.price }} ₽</span>
+                </div>
+                <div class="summary-total">
+                    <span>Итого к оплате:</span>
+                    <span>{{ movie.price }} ₽</span>
+                </div>
+            </div>
+            
+            <div class="purchase-actions">
+                <a href="{% url 'movie_detail' movie.movie_id %}" class="cancel-btn">Отмена</a>
+                <button type="submit" class="confirm-btn">Подтвердить покупку</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
