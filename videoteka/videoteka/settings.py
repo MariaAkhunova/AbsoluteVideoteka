@@ -77,7 +77,7 @@ DATABASES = {
     'default': {  
         'ENGINE': 'mssql',  
         'NAME': 'Видеотека',
-        'HOST': 'LAPTOP-68INSMTQ\SQLEXPRESS',
+        'HOST': ,
         'PORT': '',
         'OPTIONS': {
             'driver': 'ODBC Driver 17 for SQL Server',
