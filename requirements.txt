@@ -2,3 +2,4 @@ mssql-django
 django-mssql-backend
 Django
 pillow
+reportlab python-docx

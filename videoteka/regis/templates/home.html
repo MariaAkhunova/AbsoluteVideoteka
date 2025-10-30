@@ -6,10 +6,79 @@
 {% endblock %}
 
 {% block content %}
+<!-- Панель фильтров и сортировки -->
+<div class="filters-panel">
+    <h3>Поиск и фильтрация</h3>
+    <form method="get" class="filter-form">
+        <div class="filter-grid">
+            <!-- Поиск -->
+            <div class="filter-group full-width">
+                <label>Поиск по названию:</label>
+                {{ form.search }}
+            </div>
+            
+            <!-- Жанр и сортировка в одной строке -->
+            <div class="filter-group">
+                <label>Жанр:</label>
+                {{ form.genre }}
+            </div>
+            
+            <div class="filter-group">
+                <label>Сортировка:</label>
+                {{ form.sort_by }}
+            </div>
+            
+            <!-- Год выпуска -->
+            <div class="filter-group">
+                <label>Год от:</label>
+                {{ form.min_year }}
+            </div>
+            
+            <div class="filter-group">
+                <label>Год до:</label>
+                {{ form.max_year }}
+            </div>
+            
+            <!-- Цена -->
+            <div class="filter-group">
+                <label>Цена от:</label>
+                {{ form.min_price }}
+            </div>
+            
+            <div class="filter-group">
+                <label>Цена до:</label>
+                {{ form.max_price }}
+            </div>
+        </div>
+        
+        <!-- Кнопки -->
+        <div class="filter-actions">
+            <button type="submit" class="btn-filter apply-btn">Применить фильтры</button>
+            <a href="{% url 'home' %}" class="btn-filter reset-btn">Сбросить всё</a>
+        </div>
+    </form>
+</div>
+
+<!-- Информация о результатах -->
+<div class="results-info">
+    <div class="results-count">
+        <span>Найдено фильмов: <strong>{{ results_count }}</strong></span>
+    </div>
+    
+    {% if results_count > 0 %}
+    <div class="export-buttons">
+        <span>Скачать список:</span>
+        <a href="?{{ request.GET.urlencode }}&export=txt" class="btn-export">TXT</a>
+        <a href="?{{ request.GET.urlencode }}&export=pdf" class="btn-export">PDF</a>
+        <a href="?{{ request.GET.urlencode }}&export=docx" class="btn-export">DOCX</a>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Сетка фильмов -->
 <div class="movies-grid">
     {% for movie in movies_list %}
     <div class="movie-card">
-        <!-- Постер фильма -->
         <a href="/movie/{{ movie.movie_id }}/" class="movie-card-link">
             <div class="movie-poster">
                 {% if movie.poster %}
@@ -18,16 +87,14 @@
                     <img src="{% static 'images/default-poster.jpg' %}" alt="{{ movie.title }}">
                 {% endif %}
                 
-                <!-- Цена поверх постера -->
                 <div class="movie-price">{{ movie.price }} ₽</div>
             </div>
             
-            <!-- Информация о фильме -->
             <div class="movie-info">
                 <h3 class="movie-title">{{ movie.title }}</h3>
                 <p class="movie-details">{{ movie.release_year }} • {{ movie.genre }}</p>   
             </a>
-                <!-- Кнопка купить  -->
+                
                 <div class="movie-actions">
                     {% if user.is_authenticated %}
                         <a href="{% url 'purchase_movie' movie.movie_id %}" ><button class="buy-btn">🛒 Купить</button></a>
@@ -36,10 +103,10 @@
                     {% endif %}
                 </div>
             </div>
-        </div>
+    </div>
     {% empty %}
     <div class="no-movies">
-        <p>Фильмы не найдены</p>
+        <p>Фильмы не найдены. Попробуйте изменить параметры поиска.</p>
     </div>
     {% endfor %}
 </div>
